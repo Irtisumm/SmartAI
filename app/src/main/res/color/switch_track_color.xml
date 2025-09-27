@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- State when the switch is ON (checked). Alpha is set to 40% (0.4) for the light background bar. -->
+    <item android:color="@color/vividBlue" android:alpha="0.4" android:state_checked="true" />
+    <!-- Default state when the switch is OFF (unchecked - light grey) -->
+    <item android:color="#E0E0E0" />
+
+    <color name="divider_color">#EEEEEE</color>
+</selector>

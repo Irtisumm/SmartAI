@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/home"
+        android:title="@string/home_tab_title" />
+    <item
+        android:id="@+id/insightsFragment"
+        android:icon="@drawable/ic_chart_line"
+        android:title="@string/insights_tab_title" />
+    <!-- Placeholder for the central FAB. This item is usually hidden/replaced by the FAB in MainActivity. -->
+    <item
+        android:id="@+id/chatBotFragment"
+        android:title=""
+        android:enabled="false" />
+    <item
+        android:id="@+id/analyticsFragment"
+        android:icon="@drawable/chart"
+        android:title="@string/analytics_tab_title" />
+    <item
+        android:id="@+id/profileMenuFragment"
+        android:icon="@drawable/profile"
+        android:title="@string/profile_tab_title" />
+</menu>
