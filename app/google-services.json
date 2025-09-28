@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "554651323097",
+    "project_id": "cyber-pulse-ai",
+    "storage_bucket": "cyber-pulse-ai.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:554651323097:android:9a6b176e1ae7bdb02a8cc8",
+        "android_client_info": {
+          "package_name": "com.example.citypulseai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "554651323097-tfggpllgbhrt75vtuvak59ngdlf8bo2u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.citypulseai",
+            "certificate_hash": "d71faa08bad43e0dc5618aebd7bf526e6c98a2fe"
+          }
+        },
+        {
+          "client_id": "554651323097-2ffr34rf973dmhmq4qr2nreq00mii4fc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQODVFsYzM4ZAdsiq9rf5_L64k1nG4z-I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "554651323097-2ffr34rf973dmhmq4qr2nreq00mii4fc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

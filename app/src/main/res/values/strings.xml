@@ -24,4 +24,5 @@
     <string name="insights_tab_title">Insights</string>
     <string name="analytics_tab_title">Analytics</string>
     <string name="profile_tab_title">Profile</string>
+    <string name="default_web_client_id">YOUR_WEB_CLIENT_ID_HERE</string>
 </resources>

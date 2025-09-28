@@ -5,7 +5,7 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/homeFragment">
 
-    <!-- Home Fragment as Start Destination -->
+    <!-- Home (start) -->
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.citypulseai.HomeFragment"
@@ -17,10 +17,19 @@
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="false" />
         <action
-            android:id="@+id/action_homeFragment_to_chatBotFragment"
-            app:destination="@id/chatBotFragment"
+            android:id="@+id/action_homeFragment_to_chatbotFragment"
+            app:destination="@id/chatbotFragment"
             app:popUpTo="@id/homeFragment"
-            app:popUpToInclusive="false" />
+            app:popUpToInclusive="false">
+            <argument
+                android:name="QUICK_QUERY"
+                app:argType="string"
+                app:nullable="true" />
+            <argument
+                android:name="AUTO_SEND"
+                app:argType="boolean"
+                android:defaultValue="false" />
+        </action>
         <action
             android:id="@+id/action_homeFragment_to_analyticsFragment"
             app:destination="@id/analyticsFragment"
@@ -31,9 +40,14 @@
             app:destination="@id/profileMenuFragment"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_homeFragment_to_emergencyServicesFragment"
+            app:destination="@id/emergencyServicesFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false" />
     </fragment>
 
-    <!-- Other Fragments (Insights, ChatBot, Analytics, Profile) -->
+    <!-- Insights -->
     <fragment
         android:id="@+id/insightsFragment"
         android:name="com.example.citypulseai.InsightsFragment"
@@ -45,17 +59,29 @@
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
     </fragment>
+
+    <!-- Chatbot -->
     <fragment
-        android:id="@+id/chatBotFragment"
-        android:name="com.example.citypulseai.ChatBotFragment"
+        android:id="@+id/chatbotFragment"
+        android:name="com.example.citypulseai.ChatbotFragment"
         android:label="AI Chatbot"
-        tools:layout="@layout/fragment_chat_bot">
+        tools:layout="@layout/fragment_chatbot">
         <action
-            android:id="@+id/action_chatBotFragment_to_homeFragment"
+            android:id="@+id/action_chatbotFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="QUICK_QUERY"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="AUTO_SEND"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
+
+    <!-- Analytics -->
     <fragment
         android:id="@+id/analyticsFragment"
         android:name="com.example.citypulseai.AnalyticsFragment"
@@ -67,6 +93,8 @@
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
     </fragment>
+
+    <!-- Profile Menu -->
     <fragment
         android:id="@+id/profileMenuFragment"
         android:name="com.example.citypulseai.ProfileMenuFragment"
@@ -98,6 +126,8 @@
             app:popUpTo="@id/profileMenuFragment"
             app:popUpToInclusive="false" />
     </fragment>
+
+    <!-- Edit Profile -->
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.example.citypulseai.EditProfileFragment"
@@ -109,6 +139,8 @@
             app:popUpTo="@id/profileMenuFragment"
             app:popUpToInclusive="true" />
     </fragment>
+
+    <!-- Change Password -->
     <fragment
         android:id="@+id/changePasswordFragment"
         android:name="com.example.citypulseai.ChangePasswordFragment"
@@ -120,6 +152,8 @@
             app:popUpTo="@id/profileMenuFragment"
             app:popUpToInclusive="true" />
     </fragment>
+
+    <!-- Change PIN -->
     <fragment
         android:id="@+id/changePinFragment"
         android:name="com.example.citypulseai.ChangePinFragment"
@@ -131,6 +165,8 @@
             app:popUpTo="@id/profileMenuFragment"
             app:popUpToInclusive="true" />
     </fragment>
+
+    <!-- Notification Settings -->
     <fragment
         android:id="@+id/notificationSettingsFragment"
         android:name="com.example.citypulseai.NotificationSettingsFragment"
@@ -140,6 +176,19 @@
             android:id="@+id/action_notificationSettingsFragment_to_profileMenuFragment"
             app:destination="@id/profileMenuFragment"
             app:popUpTo="@id/profileMenuFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <!-- Emergency Services -->
+    <fragment
+        android:id="@+id/emergencyServicesFragment"
+        android:name="com.example.citypulseai.EmergencyServicesFragment"
+        android:label="Emergency Services"
+        tools:layout="@layout/fragment_emergency_services">
+        <action
+            android:id="@+id/action_emergencyServicesFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
     </fragment>
 </navigation>

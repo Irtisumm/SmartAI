@@ -1,6 +1,7 @@
 package com.example.citypulseai
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -17,17 +18,20 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Setup Navigation Controller
+        // Initialize Navigation Controller
         val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+            .findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
+        if (navHostFragment == null) {
+            Log.e("MainActivity", "NavHostFragment not found for ID R.id.nav_host_fragment")
+            finish()
+            return
+        }
         navController = navHostFragment.navController
 
-        // Setup Custom Bottom Navigation
         setupBottomNav()
     }
 
     private fun setupBottomNav() {
-        // Map layout IDs to destination IDs in nav_graph.xml
         val navMap = mapOf(
             binding.navHome.id to R.id.homeFragment,
             binding.navInsights.id to R.id.insightsFragment,
@@ -35,47 +39,52 @@ class MainActivity : AppCompatActivity() {
             binding.navProfile.id to R.id.profileMenuFragment
         )
 
-        // Define colors
         val darkGray = ContextCompat.getColor(this, android.R.color.darker_gray)
         val vividBlue = ContextCompat.getColor(this, R.color.vividBlue)
 
-        // Handle standard tab clicks and navigation
+        // Handle standard tab clicks
         navMap.forEach { (viewId, destId) ->
-            findViewById<android.view.View>(viewId).setOnClickListener {
-                try {
-                    navController.navigate(destId)
-                    // The updateSelection function handles coloring based on the navigated ID
-                    updateSelection(it.id, vividBlue, darkGray)
-                } catch (e: IllegalArgumentException) {
-                    // Handle unimplemented fragments gracefully
-                    updateSelection(it.id, vividBlue, darkGray)
+            findViewById<android.view.View>(viewId)?.setOnClickListener {
+                val current = navController.currentDestination?.id
+                if (current != destId) {
+                    try {
+                        navController.navigate(destId)
+                    } catch (e: Exception) {
+                        Log.w("MainActivity", "Navigation to $destId failed", e)
+                    }
                 }
-            }
+                updateSelection(viewId, vividBlue, darkGray)
+            } ?: Log.w("MainActivity", "View with ID $viewId not found")
         }
 
         // Handle FAB click
         binding.fabCenter.setOnClickListener {
-            try {
-                navController.navigate(R.id.chatBotFragment)
-                // When FAB is clicked, mark the FAB ID as selected
-                updateSelection(binding.fabCenter.id, vividBlue, darkGray)
-            } catch (e: IllegalArgumentException) {
-                updateSelection(binding.fabCenter.id, vividBlue, darkGray)
+            val destId = R.id.chatbotFragment
+            val current = navController.currentDestination?.id
+            if (current != destId) {
+                try {
+                    navController.navigate(destId)
+                } catch (e: Exception) {
+                    Log.w("MainActivity", "Navigation to $destId failed", e)
+                }
             }
+            updateSelection(binding.fabCenter.id, vividBlue, darkGray)
         }
 
-        // Update selection when fragment changes (e.g., navigating programmatically or via deep link)
+        // Update selection on destination change
         navController.addOnDestinationChangedListener { _, destination, _ ->
             val selectedNavId = when (destination.id) {
                 R.id.homeFragment -> binding.navHome.id
                 R.id.insightsFragment -> binding.navInsights.id
                 R.id.analyticsFragment -> binding.navAnalytics.id
                 R.id.profileMenuFragment -> binding.navProfile.id
-                R.id.chatBotFragment -> binding.fabCenter.id
+                R.id.chatbotFragment -> binding.fabCenter.id
                 else -> -1
             }
             if (selectedNavId != -1) {
                 updateSelection(selectedNavId, vividBlue, darkGray)
+            } else {
+                Log.w("MainActivity", "Unknown destination: ${destination.id}")
             }
         }
 
@@ -83,29 +92,38 @@ class MainActivity : AppCompatActivity() {
         updateSelection(binding.navHome.id, vividBlue, darkGray)
     }
 
-    /**
-     * Updates the visual appearance of the bottom navigation icons.
-     * Note: This function relies on the `activity_main.xml` structure where each nav item
-     * (nav_home, nav_insights, etc.) is a LinearLayout containing an ImageView as its first child (index 0).
-     */
     private fun updateSelection(selectedId: Int, vividBlue: Int, darkGray: Int) {
         val items = listOf(binding.navHome, binding.navInsights, binding.navAnalytics, binding.navProfile)
 
-        // 1. Reset all standard icons to gray
+        // Reset all standard icons to gray
         items.forEach { layout ->
-            val imageView = layout.getChildAt(0) as ImageView
-            imageView.setColorFilter(darkGray)
+            try {
+                val imageView = layout.getChildAt(0) as? ImageView
+                imageView?.setColorFilter(darkGray)
+            } catch (e: Exception) {
+                Log.w("MainActivity", "Failed to reset icon color for layout ${layout.id}", e)
+            }
         }
 
-        // 2. If the FAB is selected, we exit after resetting (FAB is styled separately in XML)
+        // Handle FAB (ImageButton) separately
         if (selectedId == binding.fabCenter.id) {
+            try {
+                binding.fabCenter.setColorFilter(vividBlue)
+            } catch (e: Exception) {
+                Log.w("MainActivity", "Failed to set FAB tint", e)
+            }
             return
         }
 
-        // 3. Highlight the specific selected standard item
-        val selectedLayout = items.find { it.id == selectedId }
-        selectedLayout?.let { layout ->
-            (layout.getChildAt(0) as ImageView).setColorFilter(vividBlue)
+        // Highlight the selected standard item
+        try {
+            val selectedView = findViewById<android.view.View>(selectedId)
+            if (selectedView is android.widget.LinearLayout) {
+                val imageView = selectedView.getChildAt(0) as? ImageView
+                imageView?.setColorFilter(vividBlue) ?: Log.w("MainActivity", "Selected view ${selectedId} has no ImageView")
+            }
+        } catch (e: Exception) {
+            Log.w("MainActivity", "Failed to highlight selected item $selectedId", e)
         }
     }
 }
